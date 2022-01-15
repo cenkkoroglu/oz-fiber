@@ -9,7 +9,7 @@ import (
 type Base struct {
 	Id        uuid.UUID `gorm:"type:uuid;primaryKey;unique"`
 	CreatedAt time.Time
-	UpdatedAt time.Time
+	UpdatedAt *time.Time     `gorm:"default:null"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 

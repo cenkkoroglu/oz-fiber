@@ -31,29 +31,50 @@ func main() {
 
 	config := config.GetConfig()
 
+	// Connect database
+
 	if databaseErr := database.Init(); databaseErr != nil {
 		logger.Fatal("DB initialization failed!", zap.Error(databaseErr))
 	}
+
+	// Make database migrations
+
+	if migrateErr := database.Migrate(); migrateErr != nil {
+		logger.Fatal("DB migration failed!", zap.Error(migrateErr))
+	}
+
+	// Init validator
+	util.InitValidator()
 
 	app := fiber.New(fiber.Config{
 		ErrorHandler: middleware.ErrorHandler,
 	})
 
+	// Compression middleware
 	app.Use(compress.New(compress.Config{
 		Level: compress.LevelBestSpeed,
 	}))
 
+	// Error recovering middleware
 	app.Use(recover.New())
+
+	// CORS middleware
 	app.Use(cors.New())
 
+	// Swagger route
 	if config.Environment != "production" {
 		app.Get("/swagger/*", fiberSwagger.WrapHandler)
 	}
 
+	// Public routes
 	route.PublicRoute(app)
 
-	app.Use(func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusNotFound).SendString("")
+	// Private routes
+	route.PrivateRoute(app)
+
+	// Not found route
+	app.Use(func(ctx *fiber.Ctx) error {
+		return util.RestError(ctx, 404, []string{"Not found"})
 	})
 
 	util.StartServerWithGracefulShutdown(app)

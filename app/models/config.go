@@ -1,10 +1,13 @@
 package models
 
 type Config struct {
-	Port        int
-	Environment string
-	Database    DatabaseConfig
-	Cache       CacheConfig
+	Port            int
+	Environment     string
+	JwtSecret       string
+	JwtExpireMinute int
+	TimeZone        string
+	Database        DatabaseConfig
+	Cache           CacheConfig
 }
 
 type DatabaseConfig struct {

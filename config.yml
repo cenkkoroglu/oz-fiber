@@ -1,17 +1,21 @@
-database:
-  driver: "postgres"
-  host: "localhost"
-  port: 5432
-  username: "postgres"
-  password: "123456"
-  dbname: "elma"
-  sslmode: "disable"
-  loglevel: 2 #Silent = 1, Error, Warn, Info
+Database:
+  Driver: "postgres"
+  Host: "localhost"
+  Port: 5432
+  Username: "postgres"
+  Password: "123456"
+  DbName: "oz"
+  SslMode: "disable"
+  LogLevel: 2 #Silent = 1, Error, Warn, Info
 
-cache:
-  addr: "localhost:6379"
-  db: 2
+Cache:
+  Addr: "localhost:6379"
+  Db: 2
 
-port: 8080
-environment: "production"
-jwtsecret: "w56Wr8KOa1q42CabTvtxXtl6z0RrqSoP"
+Port: 8080
+Environment: "production"
+
+JwtSecret: "w56Wr8KOa1q42CabTvtxXtl6z0RrqSoP"
+JwtExpireMinute: 1440 #one day
+
+TimeZone: "Europe/Istanbul"

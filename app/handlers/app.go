@@ -12,8 +12,13 @@ func (a *appHandler) Health(ctx *fiber.Ctx) error {
 	return util.RestOk(ctx, 200, "Healthy!")
 }
 
+func (a *appHandler) Health2(ctx *fiber.Ctx) error {
+	return util.RestOk(ctx, 200, "Healthy!")
+}
+
 type AppHandler interface {
 	Health(ctx *fiber.Ctx) error
+	Health2(ctx *fiber.Ctx) error
 }
 
 func NewAppHandler() AppHandler {
